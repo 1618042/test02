@@ -15,41 +15,12 @@ public class SpeechtoText_main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		
-		SpeechToText service = new SpeechToText();
-	    service.setUsernameAndPassword("1618042", "1618042");
+		SpeechtoText_lib slib = new SpeechtoText_lib(new File("audio/track06.wav"));
+        SpeechRecognitionResults transcript = slib.getTranscript();
+        System.out.println(transcript);
+        
+        slib.getJson(transcript);
 
-	    File audio = new File("audio/track06.wav");
-	    RecognizeOptions options = null;
-		try {
-			options = new RecognizeOptions.Builder()
-				.model("ja-JP_BroadbandModel")
-			    .audio(audio)
-			    .contentType(RecognizeOptions.ContentType.AUDIO_WAV)
-			    .build();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    SpeechRecognitionResults transcript = service.recognize(options).execute();
-
-	System.out.println(transcript);
-	String s = String.valueOf(transcript);
-	ObjectMapper mapper = new ObjectMapper();
-	try {
-		JsonNode node = mapper.readTree(s);
-		for(int i=0; i < node.get("results").size(); i++) {
-			String text = node.get("results").get(i).get("alternatives").get(0).get("transcript").toString();
-			System.out.println(text);
-			double text2 = node.get("results").get(i).get("alternatives").get(0).get("confidence").asDouble();
-			System.out.println(text2);
-		}
-		
-		
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
 	}
 
 }

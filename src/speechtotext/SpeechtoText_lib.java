@@ -37,6 +37,7 @@ public class SpeechtoText_lib {
     public void getJson(SpeechRecognitionResults transcript) {
     	String s = String.valueOf(transcript);
         ObjectMapper mapper = new ObjectMapper();
+        MySQL mysql = new MySQL();
         try {
         	JsonNode node = mapper.readTree(s);
         	for(int i=0; i < node.get("results").size(); i++) {
@@ -44,6 +45,7 @@ public class SpeechtoText_lib {
         		System.out.println(text);
         		double text2 = node.get("results").get(i).get("alternatives").get(0).get("confidence").asDouble();
         		System.out.println(text2);
+        		mysql.updateImage(text, text2);
         	}
 		
 		
